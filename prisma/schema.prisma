@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  id               String            @id @default(dbgenerated("gen_random_uuid()::text"))
+  nome             String
+  tipo             TipoCategoria
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @default(now()) @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  transacoes       Transacao[]
+  contasRecorrentes ContaRecorrente[]
+
+  @@map("categorias")
+}
+
+model Transacao {
+  id                String   @id @default(dbgenerated("gen_random_uuid()::text"))
+  valor             Decimal  @db.Decimal(10, 2)
+  descricao         String?
+  data              DateTime @default(now())
+  categoriaId       String   @map("categoria_id")
+  contaRecorrenteId String?  @map("conta_recorrente_id")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  categoria       Categoria       @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  contaRecorrente ContaRecorrente? @relation(fields: [contaRecorrenteId], references: [id], onDelete: SetNull)
+
+  @@map("transacoes")
+}
+
+model ContaRecorrente {
+  id          String   @id @default(dbgenerated("gen_random_uuid()::text"))
+  nome        String
+  valor       Decimal  @db.Decimal(10, 2)
+  descricao   String?
+  diaVencimento Int    @map("dia_vencimento") // Dia do mês (1-31)
+  ativo       Boolean  @default(true)
+  categoriaId String   @map("categoria_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  categoria   Categoria   @relation(fields: [categoriaId], references: [id], onDelete: Cascade)
+  transacoes  Transacao[]
+
+  @@map("contas_recorrentes")
+}
+
+enum TipoCategoria {
+  ENTRADA
+  SAIDA
+}
