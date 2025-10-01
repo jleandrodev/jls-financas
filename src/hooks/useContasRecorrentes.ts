@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   ContaRecorrente,
   CreateContaRecorrenteData,
@@ -13,7 +13,7 @@ export function useContasRecorrentes() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchContasRecorrentes = async () => {
+  const fetchContasRecorrentes = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -30,7 +30,7 @@ export function useContasRecorrentes() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const createContaRecorrente = async (
     data: CreateContaRecorrenteData

@@ -12,28 +12,35 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const mes = searchParams.get("mes"); // Formato: YYYY-MM
+    const mes = searchParams.get("mes"); // Formato: YYYY-MM ou "todos"
 
     if (!mes) {
       return NextResponse.json(
-        { error: "Parâmetro 'mes' é obrigatório (formato: YYYY-MM)" },
+        {
+          error: "Parâmetro 'mes' é obrigatório (formato: YYYY-MM ou 'todos')",
+        },
         { status: 400 }
       );
     }
 
-    // Criar datas de início e fim do mês
-    const [ano, mesNumero] = mes.split("-").map(Number);
-    const dataInicio = new Date(ano, mesNumero - 1, 1);
-    const dataFim = new Date(ano, mesNumero, 0, 23, 59, 59);
+    // Construir filtro de data baseado no mês selecionado
+    let whereClause = {};
+    if (mes !== "todos") {
+      const [ano, mesNumero] = mes.split("-").map(Number);
+      const dataInicio = new Date(ano, mesNumero - 1, 1);
+      const dataFim = new Date(ano, mesNumero, 0, 23, 59, 59);
 
-    // Buscar transações do mês específico
-    const transacoes = await prisma.transacao.findMany({
-      where: {
+      whereClause = {
         data: {
           gte: dataInicio,
           lte: dataFim,
         },
-      },
+      };
+    }
+
+    // Buscar transações com filtro de data
+    const transacoes = await prisma.transacao.findMany({
+      where: whereClause,
       include: {
         categoria: true,
       },
@@ -61,7 +68,17 @@ export async function GET(request: NextRequest) {
       return acc;
     }, {} as Record<string, { dia: string; entradas: number; saidas: number }>);
 
-    // Preencher dias sem transações com zeros
+    // Se for "todos", retornar apenas os dias que têm transações
+    if (mes === "todos") {
+      const transacoesPorDiaArray = Object.values(transacoesPorDia).sort(
+        (a, b) => a.dia.localeCompare(b.dia)
+      );
+      return NextResponse.json(transacoesPorDiaArray);
+    }
+
+    // Preencher dias sem transações com zeros (apenas para mês específico)
+    const [ano, mesNumero] = mes.split("-").map(Number);
+    const dataFim = new Date(ano, mesNumero, 0);
     const diasNoMes = dataFim.getDate();
     const transacoesPorDiaCompletas = [];
 

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -11,8 +11,28 @@ export async function GET() {
       return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
     }
 
-    // Buscar todas as transações
+    // Obter parâmetro de mês da query string
+    const { searchParams } = new URL(request.url);
+    const mes = searchParams.get("mes");
+
+    // Construir filtro de data baseado no mês selecionado
+    let whereClause = {};
+    if (mes && mes !== "todos") {
+      const [ano, mesNumero] = mes.split("-");
+      const dataInicio = new Date(parseInt(ano), parseInt(mesNumero) - 1, 1);
+      const dataFim = new Date(parseInt(ano), parseInt(mesNumero), 0);
+
+      whereClause = {
+        data: {
+          gte: dataInicio,
+          lte: dataFim,
+        },
+      };
+    }
+
+    // Buscar transações com filtro de data
     const transacoes = await prisma.transacao.findMany({
+      where: whereClause,
       include: {
         categoria: true,
       },
@@ -29,22 +49,24 @@ export async function GET() {
 
     const saldo = entradas - saidas;
 
-    // Agrupar por categoria para gráfico
-    const transacoesPorCategoria = transacoes.reduce((acc, transacao) => {
-      const categoria = transacao.categoria.nome;
-      const valor = Number(transacao.valor);
+    // Agrupar por categoria para gráfico (apenas saídas)
+    const transacoesPorCategoria = transacoes
+      .filter((transacao) => transacao.categoria.tipo === "SAIDA")
+      .reduce((acc, transacao) => {
+        const categoria = transacao.categoria.nome;
+        const valor = Number(transacao.valor);
 
-      if (!acc[categoria]) {
-        acc[categoria] = {
-          categoria,
-          valor: 0,
-          tipo: transacao.categoria.tipo,
-        };
-      }
+        if (!acc[categoria]) {
+          acc[categoria] = {
+            categoria,
+            valor: 0,
+            tipo: transacao.categoria.tipo,
+          };
+        }
 
-      acc[categoria].valor += valor;
-      return acc;
-    }, {} as Record<string, { categoria: string; valor: number; tipo: string }>);
+        acc[categoria].valor += valor;
+        return acc;
+      }, {} as Record<string, { categoria: string; valor: number; tipo: string }>);
 
     // Agrupar por mês para gráfico de linha
     const transacoesPorMes = transacoes.reduce((acc, transacao) => {
@@ -111,7 +133,7 @@ export async function GET() {
     const diasRestantes = ultimoDiaDoMes.getDate() - hoje.getDate() + 1;
     const gastoDiarioPermitido = diasRestantes > 0 ? saldo / diasRestantes : 0;
 
-    return NextResponse.json({
+    const response = {
       saldo,
       entradas,
       saidas,
@@ -121,7 +143,9 @@ export async function GET() {
       transacoesPorMes: transacoesPorMesArray,
       transacoesPorDia: transacoesPorDiaArray,
       ultimasTransacoes,
-    });
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
     console.error("Erro ao buscar dados do dashboard:", error);
     return NextResponse.json(

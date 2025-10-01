@@ -4,7 +4,28 @@ import { useState } from "react";
 import { useContasRecorrentes } from "@/hooks/useContasRecorrentes";
 import { ContaRecorrente } from "@/types/contas-recorrentes";
 import ContaRecorrenteModal from "@/components/ContaRecorrenteModal";
-import Navigation from "@/components/navigation";
+import ModernLayout from "@/components/ModernLayout";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Plus,
+  RotateCcw,
+  DollarSign,
+  CheckCircle,
+  Clock,
+  AlertTriangle,
+  Edit,
+  Trash2,
+  ToggleLeft,
+  ToggleRight,
+} from "lucide-react";
 
 export default function ContasRecorrentesPage() {
   const {
@@ -85,347 +106,284 @@ export default function ContasRecorrentesPage() {
 
   if (loading) {
     return (
-      <>
-        <Navigation />
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <ModernLayout>
+        <div className="p-6">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-zinc-600">
               Carregando contas recorrentes...
             </p>
           </div>
         </div>
-      </>
+      </ModernLayout>
     );
   }
 
   return (
-    <>
-      <Navigation />
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-          <div className="mb-6 sm:mb-8">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  Contas Recorrentes
-                </h1>
-                <p className="mt-2 text-gray-600">
-                  Gerencie suas contas que se repetem mensalmente
-                </p>
-              </div>
-              <button
-                onClick={handleCreate}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors w-full sm:w-auto"
-              >
-                Nova Conta Recorrente
-              </button>
-            </div>
+    <ModernLayout>
+      <div className="p-6 space-y-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-zinc-900">
+              Contas Recorrentes
+            </h1>
+            <p className="text-zinc-600 mt-1">
+              Gerencie suas contas que se repetem mensalmente
+            </p>
           </div>
+          <Button
+            onClick={handleCreate}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Nova Conta Recorrente
+          </Button>
+        </div>
 
-          {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
-              {error}
-            </div>
-          )}
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl">
+            {error}
+          </div>
+        )}
 
-          {contasRecorrentes.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="mx-auto h-12 w-12 text-gray-400">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
+        {contasRecorrentes.length === 0 ? (
+          <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+            <CardContent className="text-center py-12">
+              <div className="w-16 h-16 bg-zinc-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <RotateCcw className="w-8 h-8 text-zinc-400" />
               </div>
-              <h3 className="mt-2 text-sm font-medium text-gray-900">
+              <h3 className="text-lg font-medium text-zinc-900">
                 Nenhuma conta recorrente
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="text-zinc-500 mt-1">
                 Comece criando uma nova conta recorrente.
               </p>
               <div className="mt-6">
-                <button
+                <Button
                   onClick={handleCreate}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
                 >
+                  <Plus className="w-4 h-4 mr-2" />
                   Nova Conta Recorrente
-                </button>
+                </Button>
               </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <>
+            {/* Cards de Resumo */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Gasto Fixo Mensal */}
+              <Card className="shadow-sm hover:shadow-md transition-all duration-200 bg-gradient-to-br from-blue-50 to-indigo-50">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-zinc-600">
+                    Gasto Fixo Mensal
+                  </CardTitle>
+                  <DollarSign className="h-4 w-4 text-blue-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-zinc-900">
+                    {formatCurrency(
+                      contasRecorrentes
+                        .filter(({ conta }) => conta.ativo)
+                        .reduce((total, { conta }) => total + conta.valor, 0)
+                    )}
+                  </div>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Total das contas ativas
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Já Pago Este Mês */}
+              <Card className="shadow-sm hover:shadow-md transition-all duration-200 bg-gradient-to-br from-green-50 to-emerald-50">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-zinc-600">
+                    Já Pago Este Mês
+                  </CardTitle>
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-green-600">
+                    {formatCurrency(
+                      contasRecorrentes
+                        .filter(
+                          ({ conta, pagoEsteMes }) => conta.ativo && pagoEsteMes
+                        )
+                        .reduce((total, { conta }) => total + conta.valor, 0)
+                    )}
+                  </div>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Contas pagas este mês
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Falta Pagar */}
+              <Card className="shadow-sm hover:shadow-md transition-all duration-200 bg-gradient-to-br from-yellow-50 to-amber-50">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-zinc-600">
+                    Falta Pagar
+                  </CardTitle>
+                  <Clock className="h-4 w-4 text-yellow-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-yellow-600">
+                    {formatCurrency(
+                      contasRecorrentes
+                        .filter(
+                          ({ conta, pagoEsteMes }) =>
+                            conta.ativo && !pagoEsteMes
+                        )
+                        .reduce((total, { conta }) => total + conta.valor, 0)
+                    )}
+                  </div>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Pendente de pagamento
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Contas Atrasadas */}
+              <Card className="shadow-sm hover:shadow-md transition-all duration-200 bg-gradient-to-br from-red-50 to-rose-50">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium text-zinc-600">
+                    Contas Atrasadas
+                  </CardTitle>
+                  <AlertTriangle className="h-4 w-4 text-red-600" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-red-600">
+                    {
+                      contasRecorrentes.filter(
+                        ({ conta, pagoEsteMes, diasAteVencimento }) =>
+                          conta.ativo && !pagoEsteMes && diasAteVencimento <= 0
+                      ).length
+                    }
+                  </div>
+                  <p className="text-xs text-zinc-500 mt-1">Contas vencidas</p>
+                </CardContent>
+              </Card>
             </div>
-          ) : (
-            <>
-              {/* Cards de Resumo */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                {/* Gasto Fixo Mensal */}
-                <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-5 h-5 text-blue-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">
-                        Gasto Fixo Mensal
-                      </p>
-                      <p className="text-2xl font-semibold text-gray-900">
-                        {formatCurrency(
-                          contasRecorrentes
-                            .filter(({ conta }) => conta.ativo)
-                            .reduce(
-                              (total, { conta }) => total + conta.valor,
-                              0
-                            )
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </div>
 
-                {/* Já Pago Este Mês */}
-                <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-5 h-5 text-green-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">
-                        Já Pago Este Mês
-                      </p>
-                      <p className="text-2xl font-semibold text-green-600">
-                        {formatCurrency(
-                          contasRecorrentes
-                            .filter(
-                              ({ conta, pagoEsteMes }) =>
-                                conta.ativo && pagoEsteMes
-                            )
-                            .reduce(
-                              (total, { conta }) => total + conta.valor,
-                              0
-                            )
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Falta Pagar */}
-                <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-5 h-5 text-yellow-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">
-                        Falta Pagar
-                      </p>
-                      <p className="text-2xl font-semibold text-yellow-600">
-                        {formatCurrency(
-                          contasRecorrentes
-                            .filter(
-                              ({ conta, pagoEsteMes }) =>
-                                conta.ativo && !pagoEsteMes
-                            )
-                            .reduce(
-                              (total, { conta }) => total + conta.valor,
-                              0
-                            )
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Contas Atrasadas */}
-                <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-5 h-5 text-red-600"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="ml-4">
-                      <p className="text-sm font-medium text-gray-500">
-                        Contas Atrasadas
-                      </p>
-                      <p className="text-2xl font-semibold text-red-600">
-                        {
-                          contasRecorrentes.filter(
-                            ({ conta, pagoEsteMes, diasAteVencimento }) =>
-                              conta.ativo &&
-                              !pagoEsteMes &&
-                              diasAteVencimento <= 0
-                          ).length
-                        }
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Lista de Contas Recorrentes */}
-              <div className="bg-white shadow rounded-lg">
-                <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
-                  <h2 className="text-lg font-medium text-gray-900">
-                    Lista de Contas Recorrentes
-                  </h2>
-                </div>
-                <div className="divide-y divide-gray-200">
+            {/* Lista de Contas Recorrentes */}
+            <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <RotateCcw className="h-5 w-5 text-zinc-600" />
+                  Lista de Contas Recorrentes
+                </CardTitle>
+                <CardDescription>
+                  Gerencie suas contas que se repetem mensalmente
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-0">
+                <div className="divide-y divide-zinc-100">
                   {contasRecorrentes.map(
                     ({ conta, pagoEsteMes, diasAteVencimento }) => (
                       <div
                         key={conta.id}
-                        className={`px-4 sm:px-6 py-4 hover:bg-gray-50 transition-colors ${
+                        className={`p-6 hover:bg-zinc-50 transition-colors ${
                           !conta.ativo ? "opacity-60" : ""
                         }`}
                       >
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
-                          <div className="flex items-center space-x-3 sm:space-x-4">
-                            <div className="flex-shrink-0">
-                              <div
-                                className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${
-                                  pagoEsteMes
-                                    ? "bg-green-100"
-                                    : diasAteVencimento <= 0
-                                    ? "bg-red-100"
-                                    : diasAteVencimento <= 7
-                                    ? "bg-yellow-100"
-                                    : "bg-blue-100"
-                                }`}
-                              >
-                                <span
-                                  className={`text-sm font-bold ${
-                                    pagoEsteMes
-                                      ? "text-green-600"
-                                      : diasAteVencimento <= 0
-                                      ? "text-red-600"
-                                      : diasAteVencimento <= 7
-                                      ? "text-yellow-600"
-                                      : "text-blue-600"
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div
+                              className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                pagoEsteMes
+                                  ? "bg-green-100"
+                                  : diasAteVencimento <= 0
+                                  ? "bg-red-100"
+                                  : diasAteVencimento <= 7
+                                  ? "bg-yellow-100"
+                                  : "bg-blue-100"
+                              }`}
+                            >
+                              {pagoEsteMes ? (
+                                <CheckCircle className="w-6 h-6 text-green-600" />
+                              ) : diasAteVencimento <= 0 ? (
+                                <AlertTriangle className="w-6 h-6 text-red-600" />
+                              ) : (
+                                <Clock className="w-6 h-6 text-blue-600" />
+                              )}
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-medium text-zinc-900">
+                                {conta.nome}
+                              </div>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Badge variant="outline" className="text-xs">
+                                  {conta.categoria.nome}
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  Dia {conta.diaVencimento}
+                                </Badge>
+                                <Badge
+                                  variant="secondary"
+                                  className={`text-xs ${
+                                    conta.ativo
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-gray-100 text-gray-700"
                                   }`}
                                 >
-                                  {pagoEsteMes
-                                    ? "✓"
-                                    : diasAteVencimento <= 0
-                                    ? "!"
-                                    : "○"}
-                                </span>
+                                  {conta.ativo ? "Ativa" : "Inativa"}
+                                </Badge>
                               </div>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center space-x-3">
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-medium text-gray-900 truncate">
-                                    {conta.nome}
-                                  </p>
-                                  <p className="text-sm text-gray-500">
-                                    {conta.categoria.nome} • Dia{" "}
-                                    {conta.diaVencimento}
-                                  </p>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <span
-                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
-                                      pagoEsteMes,
-                                      diasAteVencimento
-                                    )}`}
-                                  >
-                                    {getStatusText(
-                                      pagoEsteMes,
-                                      diasAteVencimento
-                                    )}
-                                  </span>
-                                  <button
-                                    onClick={() =>
-                                      handleToggleAtiva(conta.id, conta.ativo)
-                                    }
-                                    className={`px-2 py-1 text-xs font-medium rounded-full ${
-                                      conta.ativo
-                                        ? "bg-green-100 text-green-800"
-                                        : "bg-gray-100 text-gray-800"
-                                    }`}
-                                  >
-                                    {conta.ativo ? "Ativa" : "Inativa"}
-                                  </button>
-                                </div>
+                              <div className="mt-2">
+                                <Badge
+                                  variant="secondary"
+                                  className={`text-xs ${getStatusColor(
+                                    pagoEsteMes,
+                                    diasAteVencimento
+                                  )}`}
+                                >
+                                  {getStatusText(
+                                    pagoEsteMes,
+                                    diasAteVencimento
+                                  )}
+                                </Badge>
                               </div>
                             </div>
                           </div>
-                          <div className="flex items-center space-x-4">
+                          <div className="flex items-center gap-4">
                             <div className="text-right">
-                              <p className="text-sm font-medium text-gray-900">
+                              <div className="text-lg font-semibold text-zinc-900">
                                 {formatCurrency(conta.valor)}
-                              </p>
+                              </div>
                             </div>
-                            <div className="flex space-x-2">
-                              <button
+                            <div className="flex gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                  handleToggleAtiva(conta.id, conta.ativo)
+                                }
+                                className="text-zinc-600 hover:text-zinc-700 hover:bg-zinc-50"
+                              >
+                                {conta.ativo ? (
+                                  <ToggleRight className="w-4 h-4" />
+                                ) : (
+                                  <ToggleLeft className="w-4 h-4" />
+                                )}
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
                                 onClick={() => handleEdit(conta)}
-                                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                               >
-                                Editar
-                              </button>
-                              <button
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
                                 onClick={() => handleDelete(conta.id)}
-                                className="text-red-600 hover:text-red-800 text-sm font-medium"
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
                               >
-                                Excluir
-                              </button>
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -433,10 +391,10 @@ export default function ContasRecorrentesPage() {
                     )
                   )}
                 </div>
-              </div>
-            </>
-          )}
-        </div>
+              </CardContent>
+            </Card>
+          </>
+        )}
       </div>
 
       <ContaRecorrenteModal
@@ -446,6 +404,6 @@ export default function ContasRecorrentesPage() {
         contaRecorrente={selectedConta}
         mode={modalMode}
       />
-    </>
+    </ModernLayout>
   );
 }

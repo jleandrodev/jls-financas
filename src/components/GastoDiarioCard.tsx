@@ -42,7 +42,7 @@ export default function GastoDiarioCard({
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden shadow-lg rounded-lg border border-blue-200">
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 rounded-xl border border-blue-200/60">
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">

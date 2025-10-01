@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export interface DashboardData {
   saldo: number;
@@ -34,7 +34,7 @@ export interface DashboardData {
   }>;
 }
 
-export function useDashboard() {
+export function useDashboard(mesSelecionado?: string) {
   const [data, setData] = useState<DashboardData>({
     saldo: 0,
     entradas: 0,
@@ -49,11 +49,16 @@ export function useDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("/api/dashboard");
+      const url =
+        mesSelecionado && mesSelecionado !== "todos"
+          ? `/api/dashboard?mes=${mesSelecionado}`
+          : "/api/dashboard";
+
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error("Erro ao buscar dados do dashboard");
@@ -66,11 +71,11 @@ export function useDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [mesSelecionado]);
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [fetchDashboardData]);
 
   return {
     data,

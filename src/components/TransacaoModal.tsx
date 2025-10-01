@@ -189,7 +189,7 @@ export default function TransacaoModal({
               <button
                 type="button"
                 onClick={() => setShowCategoriaModal(true)}
-                className="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm"
+                className="px-3 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-md hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm"
               >
                 + Nova
               </button>
@@ -279,13 +279,13 @@ export default function TransacaoModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
             >
               Salvar
             </button>
