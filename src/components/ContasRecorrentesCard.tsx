@@ -36,8 +36,8 @@ export default function ContasRecorrentesCard() {
 
   if (loading) {
     return (
-      <div className="bg-white shadow rounded-lg">
-        <div className="px-6 py-4 border-b border-gray-200">
+      <div className="bg-white shadow-sm hover:shadow-md transition-all duration-200 rounded-xl border border-zinc-200/60">
+        <div className="px-6 py-4 border-b border-zinc-200/60">
           <h2 className="text-lg font-medium text-gray-900">
             Contas Recorrentes
           </h2>
@@ -58,14 +58,14 @@ export default function ContasRecorrentesCard() {
   }
 
   return (
-    <div className="bg-white shadow rounded-lg">
-      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+    <div className="bg-white shadow-sm hover:shadow-md transition-all duration-200 rounded-xl border border-zinc-200/60">
+      <div className="px-6 py-4 border-b border-zinc-200/60 flex items-center justify-between">
         <h2 className="text-lg font-medium text-gray-900">
           Contas Recorrentes
         </h2>
         <button
           onClick={() => router.push("/contas-recorrentes")}
-          className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+          className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
         >
           Ver todas
         </button>
@@ -92,14 +92,14 @@ export default function ContasRecorrentesCard() {
           <div className="mt-4">
             <button
               onClick={() => router.push("/contas-recorrentes")}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
             >
               Cadastrar Conta
             </button>
           </div>
         </div>
       ) : (
-        <div className="divide-y divide-gray-200">
+        <div className="divide-y divide-zinc-200/60">
           {contasAtivas.map(({ conta, pagoEsteMes, diasAteVencimento }) => (
             <div key={conta.id} className="px-6 py-4">
               <div className="flex items-center justify-between">

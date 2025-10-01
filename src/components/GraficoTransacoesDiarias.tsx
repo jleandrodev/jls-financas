@@ -14,8 +14,14 @@ import {
 import { Calendar, TrendingUp, TrendingDown } from "lucide-react";
 import { useTransacoesPorDia } from "@/hooks/useTransacoesPorDia";
 
-export default function GraficoTransacoesDiarias() {
-  const [mesSelecionado, setMesSelecionado] = useState(() => {
+interface GraficoTransacoesDiariasProps {
+  mesSelecionado?: string;
+}
+
+export default function GraficoTransacoesDiarias({
+  mesSelecionado,
+}: GraficoTransacoesDiariasProps) {
+  const [mesInterno, setMesInterno] = useState(() => {
     const hoje = new Date();
     return `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(
       2,
@@ -23,7 +29,9 @@ export default function GraficoTransacoesDiarias() {
     )}`;
   });
 
-  const { data, loading, error } = useTransacoesPorDia(mesSelecionado);
+  // Usar o mês passado como prop ou o mês interno
+  const mesAtual = mesSelecionado || mesInterno;
+  const { data, loading, error } = useTransacoesPorDia(mesAtual);
 
   const formatarData = (dataString: string) => {
     const data = new Date(dataString);
@@ -99,19 +107,21 @@ export default function GraficoTransacoesDiarias() {
           </h2>
         </div>
 
-        <div className="flex items-center space-x-4">
-          <select
-            value={mesSelecionado}
-            onChange={(e) => setMesSelecionado(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-          >
-            {gerarOpcoesMes().map((opcao) => (
-              <option key={opcao.valor} value={opcao.valor}>
-                {opcao.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        {!mesSelecionado && (
+          <div className="flex items-center space-x-4">
+            <select
+              value={mesInterno}
+              onChange={(e) => setMesInterno(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            >
+              {gerarOpcoesMes().map((opcao) => (
+                <option key={opcao.valor} value={opcao.valor}>
+                  {opcao.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
 
       {/* Totais do mês */}
@@ -203,7 +213,7 @@ export default function GraficoTransacoesDiarias() {
       <div className="mt-4 text-center text-sm text-gray-500">
         <p>
           Mostrando dados de{" "}
-          {new Date(mesSelecionado + "-01").toLocaleDateString("pt-BR", {
+          {new Date(mesAtual + "-01").toLocaleDateString("pt-BR", {
             year: "numeric",
             month: "long",
           })}

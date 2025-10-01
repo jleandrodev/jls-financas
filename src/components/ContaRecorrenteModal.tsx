@@ -231,7 +231,7 @@ export default function ContaRecorrenteModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-200"
               disabled={loading}
             >
               Cancelar
@@ -239,7 +239,7 @@ export default function ContaRecorrenteModal({
             <button
               type="submit"
               disabled={!isFormValid || loading || categoriasLoading}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-md transition-colors"
+              className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-md shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
             >
               {loading ? "Salvando..." : mode === "create" ? "Criar" : "Salvar"}
             </button>

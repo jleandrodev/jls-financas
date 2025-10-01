@@ -3,6 +3,28 @@
 import { useState } from "react";
 import { useUsuarios, Usuario } from "@/hooks/useUsuarios";
 import UsuarioModal from "@/components/UsuarioModal";
+import ModernLayout from "@/components/ModernLayout";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Plus,
+  Settings,
+  Users,
+  User,
+  Mail,
+  Calendar,
+  CheckCircle,
+  Clock,
+  Edit,
+  Trash2,
+} from "lucide-react";
 
 export default function ConfiguracoesPage() {
   const {
@@ -64,147 +86,156 @@ export default function ConfiguracoesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ModernLayout>
+        <div className="p-6">
           <div className="text-center">
-            <div className="text-lg text-gray-600">Carregando usuários...</div>
+            <div className="text-lg text-zinc-600">Carregando usuários...</div>
           </div>
         </div>
-      </div>
+      </ModernLayout>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ModernLayout>
+        <div className="p-6">
           <div className="text-center">
             <div className="text-lg text-red-600">Erro: {error}</div>
           </div>
         </div>
-      </div>
+      </ModernLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            Configurações
-          </h1>
-          <p className="mt-2 text-gray-600">
-            Gerencie usuários e configurações do sistema
-          </p>
+    <ModernLayout>
+      <div className="p-6 space-y-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold text-zinc-900">Configurações</h1>
+            <p className="text-zinc-600 mt-1">
+              Gerencie usuários e configurações do sistema
+            </p>
+          </div>
         </div>
 
         {/* Seção de Usuários */}
-        <div className="bg-white shadow-sm rounded-lg">
-          <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
+        <Card className="shadow-sm hover:shadow-md transition-all duration-200">
+          <CardHeader>
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-                Gerenciamento de Usuários
-              </h2>
-              <button
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-zinc-600" />
+                  Gerenciamento de Usuários
+                </CardTitle>
+                <CardDescription>
+                  Gerencie os usuários do sistema
+                </CardDescription>
+              </div>
+              <Button
                 onClick={handleCreateUsuario}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium w-full sm:w-auto"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg"
               >
+                <Plus className="w-4 h-4 mr-2" />
                 Novo Usuário
-              </button>
+              </Button>
             </div>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Nome
-                  </th>
-                  <th className="hidden sm:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="hidden lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Criado em
-                  </th>
-                  <th className="hidden lg:table-cell px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Último Acesso
-                  </th>
-                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-4 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ações
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+          </CardHeader>
+          <CardContent className="p-0">
+            {usuarios.length > 0 ? (
+              <div className="divide-y divide-zinc-100">
                 {usuarios.map((usuario) => (
-                  <tr key={usuario.id} className="hover:bg-gray-50">
-                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">
-                        {usuario.name}
+                  <div
+                    key={usuario.id}
+                    className="p-6 flex items-center justify-between hover:bg-zinc-50 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-white" />
                       </div>
-                      <div className="sm:hidden text-xs text-gray-500">
-                        {usuario.email}
+                      <div className="flex-1">
+                        <div className="font-medium text-zinc-900">
+                          {usuario.name}
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge variant="outline" className="text-xs">
+                            <Mail className="w-3 h-3 mr-1" />
+                            {usuario.email}
+                          </Badge>
+                          <Badge
+                            variant="secondary"
+                            className={`text-xs ${
+                              usuario.emailConfirmed
+                                ? "bg-green-100 text-green-700"
+                                : "bg-yellow-100 text-yellow-700"
+                            }`}
+                          >
+                            {usuario.emailConfirmed ? (
+                              <>
+                                <CheckCircle className="w-3 h-3 mr-1" />
+                                Confirmado
+                              </>
+                            ) : (
+                              <>
+                                <Clock className="w-3 h-3 mr-1" />
+                                Pendente
+                              </>
+                            )}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center gap-4 mt-2 text-xs text-zinc-500">
+                          <div className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            Criado: {formatDate(usuario.createdAt)}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            Último acesso:{" "}
+                            {usuario.lastSignIn
+                              ? formatDate(usuario.lastSignIn)
+                              : "Nunca"}
+                          </div>
+                        </div>
                       </div>
-                    </td>
-                    <td className="hidden sm:table-cell px-4 sm:px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        {usuario.email}
-                      </div>
-                    </td>
-                    <td className="hidden lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        {formatDate(usuario.createdAt)}
-                      </div>
-                    </td>
-                    <td className="hidden lg:table-cell px-4 sm:px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        {usuario.lastSignIn
-                          ? formatDate(usuario.lastSignIn)
-                          : "Nunca"}
-                      </div>
-                    </td>
-                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          usuario.emailConfirmed
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEditUsuario(usuario)}
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                       >
-                        {usuario.emailConfirmed ? "Confirmado" : "Pendente"}
-                      </span>
-                    </td>
-                    <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => handleEditUsuario(usuario)}
-                          className="text-blue-600 hover:text-blue-900 text-xs sm:text-sm"
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => handleDeleteUsuario(usuario.id)}
-                          className="text-red-600 hover:text-red-900 text-xs sm:text-sm"
-                        >
-                          Excluir
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDeleteUsuario(usuario.id)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
-
-          {usuarios.length === 0 && (
-            <div className="text-center py-8">
-              <div className="text-gray-500">Nenhum usuário encontrado</div>
-            </div>
-          )}
-        </div>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 bg-zinc-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-zinc-400" />
+                </div>
+                <p className="text-zinc-500 text-lg font-medium">
+                  Nenhum usuário encontrado
+                </p>
+                <p className="text-zinc-400 text-sm mt-2">
+                  Crie o primeiro usuário para começar
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* Modal */}
@@ -215,6 +246,6 @@ export default function ConfiguracoesPage() {
         usuario={selectedUsuario || undefined}
         onSave={handleSaveUsuario}
       />
-    </div>
+    </ModernLayout>
   );
 }
