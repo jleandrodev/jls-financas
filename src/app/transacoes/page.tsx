@@ -170,7 +170,7 @@ export default function TransacoesPage() {
 
   return (
     <ModernLayout>
-      <div className="p-6 space-y-8">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
@@ -318,49 +318,50 @@ export default function TransacoesPage() {
                 {transacoes.map((transacao) => (
                   <div
                     key={transacao.id}
-                    className="p-6 flex items-center justify-between hover:bg-zinc-50 transition-colors"
+                    className="p-4 sm:p-6 hover:bg-zinc-50 transition-colors"
                   >
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                          transacao.categoria.tipo === "ENTRADA"
-                            ? "bg-green-100"
-                            : "bg-red-100"
-                        }`}
-                      >
-                        {transacao.categoria.tipo === "ENTRADA" ? (
-                          <ArrowUpRight className="w-6 h-6 text-green-600" />
-                        ) : (
-                          <ArrowDownRight className="w-6 h-6 text-red-600" />
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-zinc-900">
-                          {transacao.descricao || "Sem descrição"}
-                        </div>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="outline" className="text-xs">
-                            <Tag className="w-3 h-3 mr-1" />
-                            {transacao.categoria.nome}
-                          </Badge>
-                          {transacao.contaRecorrente && (
-                            <Badge
-                              variant="secondary"
-                              className="text-xs bg-blue-100 text-blue-700"
-                            >
-                              {transacao.contaRecorrente.nome}
-                            </Badge>
+                    {/* Mobile Layout */}
+                    <div className="block sm:hidden">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div
+                          className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                            transacao.categoria.tipo === "ENTRADA"
+                              ? "bg-green-100"
+                              : "bg-red-100"
+                          }`}
+                        >
+                          {transacao.categoria.tipo === "ENTRADA" ? (
+                            <ArrowUpRight className="w-5 h-5 text-green-600" />
+                          ) : (
+                            <ArrowDownRight className="w-5 h-5 text-red-600" />
                           )}
                         </div>
-                        <div className="text-sm text-zinc-500 mt-1">
-                          {new Date(
-                            transacao.data + "T00:00:00"
-                          ).toLocaleDateString("pt-BR")}
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-zinc-900 truncate">
+                            {transacao.descricao || "Sem descrição"}
+                          </div>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            <Badge variant="outline" className="text-xs">
+                              <Tag className="w-3 h-3 mr-1" />
+                              {transacao.categoria.nome}
+                            </Badge>
+                            {transacao.contaRecorrente && (
+                              <Badge
+                                variant="secondary"
+                                className="text-xs bg-blue-100 text-blue-700"
+                              >
+                                {transacao.contaRecorrente.nome}
+                              </Badge>
+                            )}
+                          </div>
+                          <div className="text-sm text-zinc-500 mt-1">
+                            {new Date(
+                              transacao.data + "T00:00:00"
+                            ).toLocaleDateString("pt-BR")}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
+                      <div className="flex items-center justify-between">
                         <div
                           className={`text-lg font-semibold ${
                             transacao.categoria.tipo === "ENTRADA"
@@ -373,29 +374,107 @@ export default function TransacoesPage() {
                             minimumFractionDigits: 2,
                           })}
                         </div>
-                        <div className="text-xs text-zinc-500">
-                          {transacao.categoria.tipo === "ENTRADA"
-                            ? "Entrada"
-                            : "Saída"}
+                        <div className="flex gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEdit(transacao)}
+                            className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(transacao.id)}
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </div>
                       </div>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEdit(transacao)}
-                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                            transacao.categoria.tipo === "ENTRADA"
+                              ? "bg-green-100"
+                              : "bg-red-100"
+                          }`}
                         >
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(transacao.id)}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
+                          {transacao.categoria.tipo === "ENTRADA" ? (
+                            <ArrowUpRight className="w-6 h-6 text-green-600" />
+                          ) : (
+                            <ArrowDownRight className="w-6 h-6 text-red-600" />
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-zinc-900">
+                            {transacao.descricao || "Sem descrição"}
+                          </div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge variant="outline" className="text-xs">
+                              <Tag className="w-3 h-3 mr-1" />
+                              {transacao.categoria.nome}
+                            </Badge>
+                            {transacao.contaRecorrente && (
+                              <Badge
+                                variant="secondary"
+                                className="text-xs bg-blue-100 text-blue-700"
+                              >
+                                {transacao.contaRecorrente.nome}
+                              </Badge>
+                            )}
+                          </div>
+                          <div className="text-sm text-zinc-500 mt-1">
+                            {new Date(
+                              transacao.data + "T00:00:00"
+                            ).toLocaleDateString("pt-BR")}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-right">
+                          <div
+                            className={`text-lg font-semibold ${
+                              transacao.categoria.tipo === "ENTRADA"
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }`}
+                          >
+                            {transacao.categoria.tipo === "ENTRADA" ? "+" : "-"}
+                            R${" "}
+                            {transacao.valor.toLocaleString("pt-BR", {
+                              minimumFractionDigits: 2,
+                            })}
+                          </div>
+                          <div className="text-xs text-zinc-500">
+                            {transacao.categoria.tipo === "ENTRADA"
+                              ? "Entrada"
+                              : "Saída"}
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEdit(transacao)}
+                            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(transacao.id)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>

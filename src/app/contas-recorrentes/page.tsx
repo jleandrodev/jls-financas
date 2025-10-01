@@ -121,7 +121,7 @@ export default function ContasRecorrentesPage() {
 
   return (
     <ModernLayout>
-      <div className="p-6 space-y-8">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -284,11 +284,111 @@ export default function ContasRecorrentesPage() {
                     ({ conta, pagoEsteMes, diasAteVencimento }) => (
                       <div
                         key={conta.id}
-                        className={`p-6 hover:bg-zinc-50 transition-colors ${
+                        className={`p-4 sm:p-6 hover:bg-zinc-50 transition-colors ${
                           !conta.ativo ? "opacity-60" : ""
                         }`}
                       >
-                        <div className="flex items-center justify-between">
+                        {/* Mobile Layout */}
+                        <div className="block sm:hidden">
+                          <div className="flex items-start gap-3 mb-3">
+                            <div
+                              className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                pagoEsteMes
+                                  ? "bg-green-100"
+                                  : diasAteVencimento <= 0
+                                  ? "bg-red-100"
+                                  : diasAteVencimento <= 7
+                                  ? "bg-yellow-100"
+                                  : "bg-blue-100"
+                              }`}
+                            >
+                              {pagoEsteMes ? (
+                                <CheckCircle className="w-5 h-5 text-green-600" />
+                              ) : diasAteVencimento <= 0 ? (
+                                <AlertTriangle className="w-5 h-5 text-red-600" />
+                              ) : (
+                                <Clock className="w-5 h-5 text-blue-600" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-medium text-zinc-900 truncate">
+                                {conta.nome}
+                              </div>
+                              <div className="flex flex-wrap gap-1 mt-1">
+                                <Badge variant="outline" className="text-xs">
+                                  {conta.categoria.nome}
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  Dia {conta.diaVencimento}
+                                </Badge>
+                                <Badge
+                                  variant="secondary"
+                                  className={`text-xs ${
+                                    conta.ativo
+                                      ? "bg-green-100 text-green-700"
+                                      : "bg-gray-100 text-gray-700"
+                                  }`}
+                                >
+                                  {conta.ativo ? "Ativa" : "Inativa"}
+                                </Badge>
+                              </div>
+                              <div className="mt-2">
+                                <Badge
+                                  variant="secondary"
+                                  className={`text-xs ${getStatusColor(
+                                    pagoEsteMes,
+                                    diasAteVencimento
+                                  )}`}
+                                >
+                                  {getStatusText(
+                                    pagoEsteMes,
+                                    diasAteVencimento
+                                  )}
+                                </Badge>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="text-lg font-semibold text-zinc-900">
+                              {formatCurrency(conta.valor)}
+                            </div>
+                            <div className="flex gap-1">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() =>
+                                  handleToggleAtiva(conta.id, conta.ativo)
+                                }
+                                className="h-8 w-8 p-0 text-zinc-600 hover:text-zinc-700 hover:bg-zinc-50"
+                              >
+                                {conta.ativo ? (
+                                  <ToggleRight className="w-4 h-4" />
+                                ) : (
+                                  <ToggleLeft className="w-4 h-4" />
+                                )}
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleEdit(conta)}
+                                className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDelete(conta.id)}
+                                className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Desktop Layout */}
+                        <div className="hidden sm:flex items-center justify-between">
                           <div className="flex items-center gap-4">
                             <div
                               className={`w-12 h-12 rounded-full flex items-center justify-center ${

@@ -110,7 +110,7 @@ export default function ConfiguracoesPage() {
 
   return (
     <ModernLayout>
-      <div className="p-6 space-y-8">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -149,74 +149,150 @@ export default function ConfiguracoesPage() {
                 {usuarios.map((usuario) => (
                   <div
                     key={usuario.id}
-                    className="p-6 flex items-center justify-between hover:bg-zinc-50 transition-colors"
+                    className="p-4 sm:p-6 hover:bg-zinc-50 transition-colors"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                        <User className="w-6 h-6 text-white" />
+                    {/* Mobile Layout */}
+                    <div className="block sm:hidden">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <User className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-zinc-900 truncate">
+                            {usuario.name}
+                          </div>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            <Badge variant="outline" className="text-xs">
+                              <Mail className="w-3 h-3 mr-1" />
+                              {usuario.email}
+                            </Badge>
+                            <Badge
+                              variant="secondary"
+                              className={`text-xs ${
+                                usuario.emailConfirmed
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-yellow-100 text-yellow-700"
+                              }`}
+                            >
+                              {usuario.emailConfirmed ? (
+                                <>
+                                  <CheckCircle className="w-3 h-3 mr-1" />
+                                  Confirmado
+                                </>
+                              ) : (
+                                <>
+                                  <Clock className="w-3 h-3 mr-1" />
+                                  Pendente
+                                </>
+                              )}
+                            </Badge>
+                          </div>
+                          <div className="flex flex-col gap-1 mt-2 text-xs text-zinc-500">
+                            <div className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              Criado: {formatDate(usuario.createdAt)}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              Último acesso:{" "}
+                              {usuario.lastSignIn
+                                ? formatDate(usuario.lastSignIn)
+                                : "Nunca"}
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-zinc-900">
-                          {usuario.name}
-                        </div>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="outline" className="text-xs">
-                            <Mail className="w-3 h-3 mr-1" />
-                            {usuario.email}
-                          </Badge>
-                          <Badge
-                            variant="secondary"
-                            className={`text-xs ${
-                              usuario.emailConfirmed
-                                ? "bg-green-100 text-green-700"
-                                : "bg-yellow-100 text-yellow-700"
-                            }`}
+                      <div className="flex items-center justify-end">
+                        <div className="flex gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEditUsuario(usuario)}
+                            className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                           >
-                            {usuario.emailConfirmed ? (
-                              <>
-                                <CheckCircle className="w-3 h-3 mr-1" />
-                                Confirmado
-                              </>
-                            ) : (
-                              <>
-                                <Clock className="w-3 h-3 mr-1" />
-                                Pendente
-                              </>
-                            )}
-                          </Badge>
-                        </div>
-                        <div className="flex items-center gap-4 mt-2 text-xs text-zinc-500">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            Criado: {formatDate(usuario.createdAt)}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            Último acesso:{" "}
-                            {usuario.lastSignIn
-                              ? formatDate(usuario.lastSignIn)
-                              : "Nunca"}
-                          </div>
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteUsuario(usuario.id)}
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </div>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleEditUsuario(usuario)}
-                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteUsuario(usuario.id)}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                          <User className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium text-zinc-900">
+                            {usuario.name}
+                          </div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge variant="outline" className="text-xs">
+                              <Mail className="w-3 h-3 mr-1" />
+                              {usuario.email}
+                            </Badge>
+                            <Badge
+                              variant="secondary"
+                              className={`text-xs ${
+                                usuario.emailConfirmed
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-yellow-100 text-yellow-700"
+                              }`}
+                            >
+                              {usuario.emailConfirmed ? (
+                                <>
+                                  <CheckCircle className="w-3 h-3 mr-1" />
+                                  Confirmado
+                                </>
+                              ) : (
+                                <>
+                                  <Clock className="w-3 h-3 mr-1" />
+                                  Pendente
+                                </>
+                              )}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center gap-4 mt-2 text-xs text-zinc-500">
+                            <div className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              Criado: {formatDate(usuario.createdAt)}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              Último acesso:{" "}
+                              {usuario.lastSignIn
+                                ? formatDate(usuario.lastSignIn)
+                                : "Nunca"}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEditUsuario(usuario)}
+                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDeleteUsuario(usuario.id)}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))}

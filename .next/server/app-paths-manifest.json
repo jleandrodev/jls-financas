@@ -1,5 +1,8 @@
 {
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/api/dashboard/route": "app/api/dashboard/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/dashboard/transacoes-por-dia/route": "app/api/dashboard/transacoes-por-dia/route.js",
+  "/api/contas-recorrentes/route": "app/api/contas-recorrentes/route.js",
   "/dashboard/page": "app/dashboard/page.js"
 }
