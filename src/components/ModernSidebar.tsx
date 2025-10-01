@@ -165,18 +165,39 @@ export default function ModernSidebar({ children }: ModernSidebarProps) {
         </div>
       </div>
 
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-200/60 shadow-sm">
+        <div className="flex items-center justify-between px-4 py-3">
+          {/* Logo */}
+          <Image
+            src="/images/jsl-financas.svg"
+            alt="JSL Finanças"
+            width={100}
+            height={32}
+            className="h-8 w-auto"
+          />
+
+          {/* Menu Button */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-10 w-10 p-0"
+                onClick={toggleMobileMenu}
+              >
+                <Menu className="w-5 h-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-80 p-0">
+              <SidebarContent />
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+
       {/* Mobile Sidebar */}
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="lg:hidden fixed top-4 left-4 z-50 bg-white shadow-lg"
-            onClick={toggleMobileMenu}
-          >
-            <Menu className="w-5 h-5" />
-          </Button>
-        </SheetTrigger>
         <SheetContent side="left" className="w-80 p-0">
           <SidebarContent />
         </SheetContent>
@@ -184,7 +205,7 @@ export default function ModernSidebar({ children }: ModernSidebarProps) {
 
       {/* Main Content */}
       <div className="flex-1 lg:pl-80">
-        <div className="h-full overflow-auto">{children}</div>
+        <div className="h-full overflow-auto pt-16 lg:pt-0">{children}</div>
       </div>
     </div>
   );
