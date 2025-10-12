@@ -137,7 +137,7 @@ export default function TransacaoModal({
               value={valor}
               onChange={(e) => setValor(e.target.value)}
               placeholder="0.00"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               required
             />
           </div>
@@ -151,7 +151,7 @@ export default function TransacaoModal({
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
               placeholder="Descrição da transação"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
             />
           </div>
 
@@ -163,7 +163,7 @@ export default function TransacaoModal({
               type="date"
               value={data}
               onChange={(e) => setData(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
               required
             />
           </div>
@@ -203,7 +203,7 @@ export default function TransacaoModal({
             <select
               value={contaRecorrenteId}
               onChange={(e) => setContaRecorrenteId(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
             >
               <option value="">Nenhuma conta recorrente</option>
               {contasRecorrentes
@@ -251,7 +251,7 @@ export default function TransacaoModal({
                     onChange={(e) =>
                       setNumeroParcelas(parseInt(e.target.value))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                   >
                     {Array.from({ length: 24 }, (_, i) => i + 2).map((num) => (
                       <option key={num} value={num}>
@@ -275,17 +275,17 @@ export default function TransacaoModal({
             )}
           </div>
 
-          <div className="flex justify-end space-x-2">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:space-x-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
+              className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200 text-sm sm:text-base w-full sm:w-auto"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-md hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 text-sm sm:text-base w-full sm:w-auto"
             >
               Salvar
             </button>

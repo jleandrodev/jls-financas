@@ -20,6 +20,7 @@ import {
   LogOut,
   TrendingUp,
   DollarSign,
+  PieChart,
 } from "lucide-react";
 
 const navigationItems = [
@@ -46,6 +47,12 @@ const navigationItems = [
     path: "/contas-recorrentes",
     icon: RotateCcw,
     description: "Contas automáticas",
+  },
+  {
+    label: "Investimentos",
+    path: "/investimentos",
+    icon: PieChart,
+    description: "Carteiras e investimentos",
   },
   {
     label: "Configurações",
@@ -87,6 +94,7 @@ export default function ModernSidebar({ children }: ModernSidebarProps) {
           width={120}
           height={40}
           className="h-10 w-auto"
+          priority
         />
       </div>
 
@@ -175,6 +183,7 @@ export default function ModernSidebar({ children }: ModernSidebarProps) {
             width={100}
             height={32}
             className="h-8 w-auto"
+            priority
           />
 
           {/* Menu Button */}

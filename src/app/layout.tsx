@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientSessionProvider from "@/components/ClientSessionProvider";
+import HydrationBoundary from "@/components/HydrationBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +18,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={`${inter.className} antialiased`}>
-        <ClientSessionProvider>{children}</ClientSessionProvider>
+      <body
+        className={`${inter.className} antialiased`}
+        suppressHydrationWarning={true}
+      >
+        <HydrationBoundary>
+          <ClientSessionProvider>{children}</ClientSessionProvider>
+        </HydrationBoundary>
       </body>
     </html>
   );

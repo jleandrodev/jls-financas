@@ -1,8 +1,11 @@
 {
+  "/api/carteiras-investimento/route": "app/api/carteiras-investimento/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/dashboard/route": "app/api/dashboard/route.js",
+  "/api/cotacoes/route": "app/api/cotacoes/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/dashboard/transacoes-por-dia/route": "app/api/dashboard/transacoes-por-dia/route.js",
-  "/api/contas-recorrentes/route": "app/api/contas-recorrentes/route.js",
-  "/dashboard/page": "app/dashboard/page.js"
+  "/api/investimentos/route": "app/api/investimentos/route.js",
+  "/api/transacoes-investimento/route": "app/api/transacoes-investimento/route.js",
+  "/api/investimentos/[id]/route": "app/api/investimentos/[id]/route.js",
+  "/api/carteiras-investimento/[id]/route": "app/api/carteiras-investimento/[id]/route.js",
+  "/investimentos/page": "app/investimentos/page.js"
 }
