@@ -71,6 +71,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/dashboard">
 }
 
+// Validate ../../src/app/investimentos/page.tsx
+{
+  const handler = {} as typeof import("../../src/app/investimentos/page.js")
+  handler satisfies AppPageConfig<"/investimentos">
+}
+
 // Validate ../../src/app/login/page.tsx
 {
   const handler = {} as typeof import("../../src/app/login/page.js")
@@ -93,6 +99,18 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   const handler = {} as typeof import("../../src/app/api/auth/[...nextauth]/route.js")
   handler satisfies RouteHandlerConfig<"/api/auth/[...nextauth]">
+}
+
+// Validate ../../src/app/api/carteiras-investimento/[id]/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/carteiras-investimento/[id]/route.js")
+  handler satisfies RouteHandlerConfig<"/api/carteiras-investimento/[id]">
+}
+
+// Validate ../../src/app/api/carteiras-investimento/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/carteiras-investimento/route.js")
+  handler satisfies RouteHandlerConfig<"/api/carteiras-investimento">
 }
 
 // Validate ../../src/app/api/categorias/[id]/route.ts
@@ -119,6 +137,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies RouteHandlerConfig<"/api/contas-recorrentes">
 }
 
+// Validate ../../src/app/api/cotacoes/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/cotacoes/route.js")
+  handler satisfies RouteHandlerConfig<"/api/cotacoes">
+}
+
 // Validate ../../src/app/api/dashboard/route.ts
 {
   const handler = {} as typeof import("../../src/app/api/dashboard/route.js")
@@ -129,6 +153,30 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   const handler = {} as typeof import("../../src/app/api/dashboard/transacoes-por-dia/route.js")
   handler satisfies RouteHandlerConfig<"/api/dashboard/transacoes-por-dia">
+}
+
+// Validate ../../src/app/api/investimentos/[id]/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/investimentos/[id]/route.js")
+  handler satisfies RouteHandlerConfig<"/api/investimentos/[id]">
+}
+
+// Validate ../../src/app/api/investimentos/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/investimentos/route.js")
+  handler satisfies RouteHandlerConfig<"/api/investimentos">
+}
+
+// Validate ../../src/app/api/transacoes-investimento/[id]/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/transacoes-investimento/[id]/route.js")
+  handler satisfies RouteHandlerConfig<"/api/transacoes-investimento/[id]">
+}
+
+// Validate ../../src/app/api/transacoes-investimento/route.ts
+{
+  const handler = {} as typeof import("../../src/app/api/transacoes-investimento/route.js")
+  handler satisfies RouteHandlerConfig<"/api/transacoes-investimento">
 }
 
 // Validate ../../src/app/api/transacoes/[id]/route.ts

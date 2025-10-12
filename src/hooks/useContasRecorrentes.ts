@@ -97,7 +97,7 @@ export function useContasRecorrentes() {
 
   useEffect(() => {
     fetchContasRecorrentes();
-  }, []);
+  }, [fetchContasRecorrentes]);
 
   return {
     contasRecorrentes,

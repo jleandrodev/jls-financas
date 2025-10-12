@@ -63,3 +63,62 @@ enum TipoCategoria {
   ENTRADA
   SAIDA
 }
+
+model CarteiraInvestimento {
+  id          String   @id @default(dbgenerated("gen_random_uuid()::text"))
+  nome        String
+  descricao   String?
+  ativo       Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  investimentos Investimento[]
+
+  @@map("carteiras_investimento")
+}
+
+model Investimento {
+  id                    String   @id @default(dbgenerated("gen_random_uuid()::text"))
+  nome                  String
+  descricao             String?
+  moeda                 MoedaInvestimento
+  ativo                 Boolean  @default(true)
+  carteiraId           String   @map("carteira_id")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @default(now()) @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  carteira             CarteiraInvestimento @relation(fields: [carteiraId], references: [id], onDelete: Cascade)
+  transacoes           TransacaoInvestimento[]
+
+  @@map("investimentos")
+}
+
+model TransacaoInvestimento {
+  id                String   @id @default(dbgenerated("gen_random_uuid()::text"))
+  valor             Decimal  @db.Decimal(10, 2)
+  descricao         String?
+  data              DateTime @default(now())
+  tipo              TipoTransacaoInvestimento
+  investimentoId    String   @map("investimento_id")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @default(now()) @updatedAt @map("updated_at")
+
+  // Relacionamentos
+  investimento      Investimento @relation(fields: [investimentoId], references: [id], onDelete: Cascade)
+
+  @@map("transacoes_investimento")
+}
+
+enum MoedaInvestimento {
+  BRL
+  USD
+  EUR
+}
+
+enum TipoTransacaoInvestimento {
+  APORTE
+  RESGATE
+  RENDIMENTO
+}

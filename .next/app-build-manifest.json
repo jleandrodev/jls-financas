@@ -6,30 +6,45 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/dashboard/page": [
+    "/investimentos/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
+      "static/chunks/app/investimentos/page.js"
     ],
-    "/api/dashboard/route": [
+    "/api/carteiras-investimento/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/dashboard/route.js"
+      "static/chunks/app/api/carteiras-investimento/route.js"
+    ],
+    "/api/cotacoes/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/cotacoes/route.js"
     ],
     "/api/auth/[...nextauth]/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/api/auth/[...nextauth]/route.js"
     ],
-    "/api/dashboard/transacoes-por-dia/route": [
+    "/api/investimentos/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/dashboard/transacoes-por-dia/route.js"
+      "static/chunks/app/api/investimentos/route.js"
     ],
-    "/api/contas-recorrentes/route": [
+    "/api/transacoes-investimento/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/api/contas-recorrentes/route.js"
+      "static/chunks/app/api/transacoes-investimento/route.js"
+    ],
+    "/api/investimentos/[id]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/investimentos/[id]/route.js"
+    ],
+    "/api/carteiras-investimento/[id]/route": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/api/carteiras-investimento/[id]/route.js"
     ]
   }
 }
